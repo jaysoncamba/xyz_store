@@ -12,11 +12,7 @@
   </head>
 
   <body>
-    <header class="bg-[url('notice_bg.png')] flex justify-center py-2 text-white fixed top-0 w-full">
-      <%= inline_svg_tag('svg/splash_notice.svg', class: "scale-x-[-1] mx-2") %>
-      Save up to $500 per year on millions of book titles!
-      <%= inline_svg_tag('svg/splash_notice.svg', class: "mx-2") %>
-    </header>
+    <%= render partial: "layouts/nav_bar" %>
     <main class="container mx-auto mt-28 px-5 flex w-full">
       <%= yield %>
     </main>
