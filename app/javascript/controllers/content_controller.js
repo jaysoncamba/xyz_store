@@ -6,35 +6,33 @@ export default class extends Controller {
 
   connect() {
     // This should remember the original page before the search.
-    const indexContent = this.contentTarget.innerHtml
+    this.indexContent = this.contentTarget.innerHTML
+    window.addEventListener("search:completed", this.updateContent.bind(this));
   }
 
-  updateContent(bookJson) {
-    if(bookJson.type == "error") {
-      this.contentTarget.innerHtml = this.errorTemplate()
+  disconnect() {
+    // Clean up event listeners to prevent memory leaks
+    window.removeEventListener("search:completed", this.updateContent.bind(this));
+  }
+
+  updateContent(event) {
+    const {type, attributes} = event.detail
+    if(type == "error") {
+      this.contentTarget.innerHTML = this.errorTemplate()
     } else {
-      this.contentTarget.innerHtml = this.bookTemplate(bookJson)
+      this.contentTarget.innerHTML = this.bookTemplate(attributes)
     }
   }
 
   reloadIndex() {
-    this.contentTarget.innerHtml = indexContent
+    this.contentTarget.innerHTML = this.indexContent
   }
 
   errorTemplate() {
     return `<h1> Error ISBN not Found </h1>`
   }
 
-  bookTemplate(bookJson)  {
-    return `<h1> Book title: ${bookJson.title} </h1>`
-  }
-
-  loadingAnimation() {
-    return `
-    <button type="button" class="bg-indigo-500 ..." disabled>
-      <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
-      </svg>
-      Processing...
-    </button>`
+  bookTemplate(book)  {
+    return `<h1> Book title: ${book.title} </h1>`
   }
 }
