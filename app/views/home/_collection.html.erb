@@ -1,3 +1,19 @@
-<div class="my-40 h-72 bg-gradient-to-b from-white from-20% via-sky-950 via-60% to-white to-20%">
-Hello
+<div class="relative w-full h-screen flex">
+  <div class="w-full justify-center flex">
+    <div class="text-center max-w-6xl"> 
+      <div class="text text-base text-indigo-900 sm:text-lg xl:text-3xl font-extrabold pt-4"> Explore Our Books </div>
+      <br/>
+      <div class="text-base sm:text-lg xl:text-l">
+        With our dedicated customer support team, you can rest easy knowing that we’re doing everything <br/>
+        we can to save you time, money, and stress.
+      </div>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto w-full hidden pr-10 md:flex md:flex-row-reverse">
+    <%= inline_svg_tag('svg/arrow_up.svg', class: "w-auto") %>
+    <span class="w-[10rem] transform -rotate-[12deg] text-cyan-300 py-8"> Inquire us now to avail discounts!</span>
+  </div>
+  <div class = "absolute inset-0 flex items-center justify-center -ml-8 -z-50">
+    <div class="tilted-rectangle bg-cyan-950 w-[180%] h-[50%]"></div>
+  </div>
 </div>
