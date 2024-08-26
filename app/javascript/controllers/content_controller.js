@@ -8,6 +8,7 @@ export default class extends Controller {
     // This should remember the original page before the search.
     this.indexContent = this.contentTarget.innerHTML
     window.addEventListener("search:completed", this.updateContent.bind(this));
+    window.addEventListener("search:failed", this.updateContentError.bind(this));
   }
 
   disconnect() {
@@ -24,6 +25,8 @@ export default class extends Controller {
     }
   }
 
+  updateContentError(event) {}
+
   reloadIndex() {
     this.contentTarget.innerHTML = this.indexContent
   }
@@ -33,6 +36,10 @@ export default class extends Controller {
   }
 
   bookTemplate(book)  {
-    return `<h1> Book title: ${book.title} </h1>`
+    if(book == undefined || book == null) {
+      return `Not Found!`
+    } else { 
+      return `<h1> Book title: ${book.title} </h1>`
+    }
   }
 }

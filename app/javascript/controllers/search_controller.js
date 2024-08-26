@@ -10,11 +10,13 @@ export default class extends Controller {
     // Checks input if it is a valid ISBN using check digit
     if(this.isValidISBN()) {
       fetch(`${this.urlValue}/${this.inputTarget.value}.json`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
+      .then(response => { 
+        if(response.status == 400) {
+          const customEvent = new CustomEvent("search:failed", { detail: {} });
+          window.dispatchEvent(customEvent)
+          return;
         }
-        return response.json()
+        return response.json();
       })
       .then(data => {
         const customEvent = new CustomEvent("search:completed", {
@@ -22,11 +24,12 @@ export default class extends Controller {
         });
         window.dispatchEvent(customEvent)
       })
-      .catch(error => console.error("Error loading posts:", error))
+      .catch(error => { })
     } else {
       alert("Invalid ISBN 10/13 Format")
     }
   }
+
 
   isValidISBN() {
     // Remove non-digit except xX for ISBN 10
