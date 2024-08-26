@@ -26,7 +26,10 @@ export default class extends Controller {
       })
       .catch(error => { })
     } else {
-      alert("Invalid ISBN 10/13 Format")
+      const customEvent = new CustomEvent("search:completed", {
+        detail: {type: "error"}
+      });
+      window.dispatchEvent(customEvent)
     }
   }
 
