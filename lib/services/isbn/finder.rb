@@ -4,7 +4,7 @@ class Services::Isbn::Finder
     @isbn = isbn
     @errors = []
     convert_isbn_values
-    @errors << "Invalid ISBN FORMAT" unless [@isbn10, @isbn13].all?(&:presence)
+    @errors << { message: "Invalid ISBN FORMAT" } if [@isbn10, @isbn13].all?(&:nil?) && @errors.empty?
   end
 
   def get_book
@@ -78,7 +78,7 @@ class Services::Isbn::Finder
       @isbn13 = sanitized_isbn
       true
     else
-      @errors << ["invalid ISBN 13 check digit fail"]
+      @errors << { message: "invalid ISBN 13 check digit fail" }
       false
     end
   end
@@ -102,7 +102,7 @@ class Services::Isbn::Finder
       @isbn10 = sanitized_isbn
       true
     else
-      @errors << "invalid ISBN 10 check digit fail"
+      @errors << { message: "invalid ISBN 10 check digit fail" }
       false
     end
   end
