@@ -1,5 +1,5 @@
 class Services::Isbn::Finder
-  attr_accessor :isbn10, :isbn13, :errors
+  attr_reader :isbn10, :isbn13, :errors
   def initialize(isbn)
     @isbn = isbn
     @errors = []
@@ -10,24 +10,28 @@ class Services::Isbn::Finder
     return nil if @errors.presence
     Book.find_by(isbn_13: @isbn13)
   end
+  
+  def formatted_isbn13
+    @formatted_isbn13 ||=
+      "#{@isbn13[0..2]}-#{@isbn13[3..4]}-#{@isbn13[5..8]}-#{@isbn13[9..11]}-#{@isbn13[12]}"
+  end
+
+  def formatted_isbn10
+    @formatted_isbn10 ||=
+      "#{@isbn10[0..2]}-#{@isbn10[3]}-#{@isbn10[4..7]}-#{@isbn10[8..9]}"
+  end
 
   private
 
   def convert_isbn_values
     if Services::Isbn::Validator.valid_isbn10_format?(@isbn)
-      if Services::Isbn::Validator.valid_isbn10?(@isbn)
-        @isbn10 = @isbn.gsub(/[^0-9X]/i, '')
-        @isbn13 = Services::Isbn::Converter.convert_to_isbn_13(@isbn10)
-      else
-        @errors << { message: "ISBN 10 Check Digit Fails" }
-      end
+      @isbn10 = @isbn.gsub(/[^0-9X]/i, '')
+      @isbn13 = Services::Isbn::Converter.convert_to_isbn_13(@isbn10) 
+      @errors << { message: "ISBN 10 Check Digit Fails" } unless @isbn13
     elsif Services::Isbn::Validator.valid_isbn13_format?(@isbn)
-      if Services::Isbn::Validator.valid_isbn13?(@isbn)
-        @isbn13 = @isbn.gsub(/[-\s]/, '')
-        @isbn10 = Services::Isbn::Converter.convert_to_isbn_10(@isbn13)
-      else
-        @errors << { message: "ISBN 13 Check Digit Fails" }
-      end
+      @isbn13 = @isbn.gsub(/[-\s]/, '')
+      @isbn10 = Services::Isbn::Converter.convert_to_isbn_10(@isbn13)
+      @errors << { message: "ISBN 13 Check Digit Fails" } unless @isbn10
     else
       @errors << { message: "Invalid ISBN FORMAT" }
     end

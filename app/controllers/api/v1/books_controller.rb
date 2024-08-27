@@ -4,7 +4,7 @@ class Api::V1::BooksController < ApplicationController
     book = service.get_book
     logger.debug(service.errors)
     if book.presence
-      render json: BookSerializer.new(book, {params: {isbn_13: service.isbn13, isbn_10: service.isbn10}}).serializable_hash.to_json, status: 200
+      render json: BookSerializer.new(book, {params: {isbn_13: service.formatted_isbn13, isbn_10: service.formatted_isbn10}}).serializable_hash.to_json, status: 200
     else service.errors.any?
       status = service.errors.any? ? 400 : 404
       render json: ErrorSerializer.new(service.errors).serializable_hash.to_json, status:
