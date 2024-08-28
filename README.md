@@ -1,6 +1,6 @@
 # XYZ Store
 
-Welcome to the XYZ Store project! This guide will help you set up and run the project on an Ubuntu system.
+Welcome to the XYZ Store project!
 
 ## Prerequisites
 
@@ -73,3 +73,20 @@ cd xyz_store
 bundle install
 rails db:reset
 ```
+
+## Running the project
+To start the project, follow these steps:
+
+```bash
+cd xyz_store
+bin/dev
+```
+If there is no error you can navigate to your web browser to localhost:3000.
+Using the search bar you can search to the collection of the books using ISBN 10 or ISBN 13
+
+## Running the test
+To run the test:
+```bash
+cd xyz_store
+rspec spec
+``` 
