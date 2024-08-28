@@ -24,7 +24,6 @@ export default class extends Controller {
       })
       .catch(_error => { })
     } else {
-      debugger
       const customEvent = new CustomEvent("search:completed", {
         detail: { type: "error", attributes: { message: "Invalid ISBN." } }
       });

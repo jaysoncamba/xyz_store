@@ -1,6 +1,11 @@
 class BookSerializer
   include JSONAPI::Serializer
-  attributes :title, :price, :image_url, :edition, :publication_year
+  attributes :title, :price, :edition, :publication_year
+  
+  attribute :image_url do |book|
+    image_path = book.image_url.presence ? book.image_url : "books/not_available"
+    ActionController::Base.helpers.asset_path(image_path)
+  end
   attribute :authors do |book|
     book.authors.map(&:name).join(', ')
   end
