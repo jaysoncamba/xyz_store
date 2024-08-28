@@ -1,7 +1,7 @@
 <footer class="w-full">
-  <div class=" mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 gap-8 py-8 max-w-xs mx-auto sm:max-w-2xl lg:max-w-full">
-      <div class="lg:mb-10 max-lg:pb-8 lg:max-w-xs lg:mb-0">
+  <div class="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid max-w-2xl grid-cols-1 lg:grid-cols-6 gap-4 py-8 max-w-xs mx-auto  lg:max-w-full">
+      <div class="lg:mb-10 max-lg:pb-8 lg:max-w-xs lg:mb-0 col-span-2">
           <a href="#"  class="flex justify-center mb-12 lg:justify-start">
           <%= inline_svg_tag('svg/xyz_company.svg') %>
           </a>
@@ -54,10 +54,24 @@
             <li><a href="javascript:;"  class=" text-gray-600 hover:text-gray-900">Login</a></li>
         </ul>
       </div>
+      <div class="place-self-end rounded-full bg-cyan-300 p-6 mb-10">
+        <%= inline_svg_tag('svg/message_bubble', class: "fill-cyan-300")%>
+      </div>
     </div>
     <div class="py-4">
-      <div class="flex items-left justify-start">
+      <div class="flex items-left justify-between">
         <span class="text-sm font-semibold">© 2022 Brainly.</span>
+        <div class= "flex">
+          <div class="flex px-5 py-4 bg-indigo-200 rounded-full mr-4">
+            <%= inline_svg_tag('svg/facebook_f', class: 'fill-blue-500')%>
+          </div>
+          <div class="flex p-4 bg-indigo-200 rounded-full mr-4">
+            <%= inline_svg_tag('svg/linkedin_f', class: 'fill-blue-500')%>
+          </div>
+          <div class="flex p-4 bg-indigo-200 rounded-full mr-4">
+            <%= inline_svg_tag('svg/twitter_f', class: 'fill-blue-500')%>
+          </div>
+        </div>  
       </div>
     </div>
   </div>
