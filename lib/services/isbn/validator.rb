@@ -2,8 +2,8 @@ class Services::Isbn::Validator
   class << self
     def valid_isbn13_format?(isbn)
       # Validate ISBN-13 length and format
-      return false unless isbn.start_with?('978')
       sanitized_isbn = isbn.gsub(/[-\s]/i, '')
+      return false unless sanitized_isbn.start_with?('978')
       sanitized_isbn.length == 13 && sanitized_isbn.match?(/^\d{13}$/)
     end
 

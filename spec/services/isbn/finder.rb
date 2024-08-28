@@ -28,7 +28,7 @@ RSpec.describe Services::Isbn::Finder do
         
         finder = Services::Isbn::Finder.new(isbn10)
         
-        expect(finder.errors).to include({ message: 'Invalid ISBN FORMAT' })
+        expect(finder.errors).to include({ message: 'Invalid ISBN' })
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Services::Isbn::Finder do
         
         finder = Services::Isbn::Finder.new(isbn13)
         
-        expect(finder.errors).to include({ message: 'Invalid ISBN FORMAT' })
+        expect(finder.errors).to include({ message: 'Invalid ISBN' })
       end
     end
 
@@ -95,7 +95,7 @@ RSpec.describe Services::Isbn::Finder do
         
         finder = Services::Isbn::Finder.new(isbn)
         
-        expect(finder.errors).to include({ message: 'Invalid ISBN FORMAT' })
+        expect(finder.errors).to include({ message: 'Invalid ISBN' })
       end
     end
 

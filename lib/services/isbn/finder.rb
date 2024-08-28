@@ -8,7 +8,9 @@ class Services::Isbn::Finder
 
   def get_book
     return nil if @errors.presence
-    Book.find_by(isbn_13: @isbn13)
+    @book ||= Book.find_by(isbn_13: @isbn13)
+    @errors << { message: "Not Found." } unless @book.presence
+    @book
   end
   
   def formatted_isbn13
@@ -19,6 +21,10 @@ class Services::Isbn::Finder
   def formatted_isbn10
     @formatted_isbn10 ||=
       "#{@isbn10[0..2]}-#{@isbn10[3]}-#{@isbn10[4..7]}-#{@isbn10[8..9]}"
+  end
+
+  def isbn_format_error?
+    [@isbn10.presence, @isbn13.presence].all?
   end
 
   private
@@ -33,7 +39,7 @@ class Services::Isbn::Finder
       @isbn10 = Services::Isbn::Converter.convert_to_isbn_10(@isbn13)
       @errors << { message: "ISBN 13 Check Digit Fails" } unless @isbn10
     else
-      @errors << { message: "Invalid ISBN FORMAT" }
+      @errors << { message: "Invalid ISBN" }
     end
   end
 end

@@ -6,8 +6,8 @@ class Api::V1::BooksController < ApplicationController
     if book.presence
       render json: BookSerializer.new(book, {params: {isbn_13: service.formatted_isbn13, isbn_10: service.formatted_isbn10}}).serializable_hash.to_json, status: 200
     else service.errors.any?
-      status = service.errors.any? ? 400 : 404
-      render json: ErrorSerializer.new(service.errors).serializable_hash.to_json, status:
+      status = service.isbn_format_error? ? 404 : 400
+      render json: ErrorSerializer.new(service.errors&.first).serializable_hash.to_json, status:
     end
   end
 end

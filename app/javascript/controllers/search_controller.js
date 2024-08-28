@@ -9,12 +9,10 @@ export default class extends Controller {
     event.preventDefault()
     // Checks input if it is a valid ISBN using check digit
     if(this.isValidISBN()) {
-      fetch(`${this.urlValue}/${this.inputTarget.value}.json`)
+      fetch(`${this.urlValue}/${this.inputTarget.value}`)
       .then(response => { 
-        if(response.status == 400) {
-          const customEvent = new CustomEvent("search:failed", { detail: {} });
-          window.dispatchEvent(customEvent)
-          return;
+        if(response.status == 400 || response.status == 404) {
+          console.clear();
         }
         return response.json();
       })
@@ -24,10 +22,11 @@ export default class extends Controller {
         });
         window.dispatchEvent(customEvent)
       })
-      .catch(error => { })
+      .catch(_error => { })
     } else {
+      debugger
       const customEvent = new CustomEvent("search:completed", {
-        detail: {type: "error"}
+        detail: { type: "error", attributes: { message: "Invalid ISBN." } }
       });
       window.dispatchEvent(customEvent)
     }

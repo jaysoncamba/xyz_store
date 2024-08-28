@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Services::Isbn::Validator do
   describe '.valid_isbn13_format?' do
     it 'returns true for a valid ISBN-13 with 978 prefix and 13 digits' do
-      expect(described_class.valid_isbn13_format?('978-3-16-148410-0')).to be true
+      expect(described_class.valid_isbn13_format?(' 978-3-16-148410-0')).to be true
     end
 
     it 'returns false for an ISBN-13 that does not start with 978' do

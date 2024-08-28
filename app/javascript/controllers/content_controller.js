@@ -12,13 +12,13 @@ export default class extends Controller {
 
   disconnect() {
     // Clean up event listeners to prevent memory leaks
-    window.removeEventListener("search:failed", this.updateContent.bind(this));
+    window.removeEventListener("search:completed", this.updateContent.bind(this));
   }
 
   updateContent(event) {
-    const {type, attributes} = event.detail
-    if(type == "error") {
-      this.contentTarget.innerHTML = this.errorTemplate()
+    const { type, attributes } = event.detail
+    if((attributes !== undefined && type == "error")) {
+      this.contentTarget.innerHTML = this.errorTemplate(attributes)
     } else {
       this.contentTarget.innerHTML = this.bookTemplate(attributes)
     }
@@ -28,13 +28,31 @@ export default class extends Controller {
     this.contentTarget.innerHTML = this.indexContent
   }
 
-  errorTemplate() {
-    return `<h1> Error invalid ISBN failed on check digit </h1>`
+  errorTemplate(attribute) {
+    return `
+      <div class="w-full relative py-10 overflow-x-hidden sm:py-40">
+        <div class="container max-w-6xl relative w-full mx-auto sm:rounded-lg sm:px-10">
+          <div class="mx-auto px-5 text-center">
+            <h1 class="text-indigo-900 text-3xl"> ${attribute.message} </h1>
+          </div>
+        </div>
+      </div>
+    `
   }
+
+
 
   bookTemplate(book)  {
     if(book == undefined || book == null) {
-      return `Not Found!`
+      return `
+        <div class="w-full relative py-10 overflow-x-hidden sm:py-40">
+          <div class="container max-w-6xl relative w-full mx-auto sm:rounded-lg sm:px-10">
+            <div class="mx-auto px-5 text-center">
+              <h1 class="text-indigo-900 text-3xl"> Not Found </h1>
+            </div>
+          </div>
+        </div>
+      `
     } else { 
       return `<h1> Book title: ${book.title} </h1>`
     }
