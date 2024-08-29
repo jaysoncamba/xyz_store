@@ -1,33 +1,39 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="search"
 export default class extends Controller {
   static values = { url: String }
   static targets = ['input']
 
   search(event) {
     event.preventDefault()
-    // Checks input if it is a valid ISBN using check digit
-    if(this.isValidISBN()) {
-      fetch(`${this.urlValue}/${this.inputTarget.value}`)
-      .then(response => { 
-        if(response.status == 400 || response.status == 404) {
-          console.clear();
-        }
-        return response.json();
-      })
-      .then(data => {
-        const customEvent = new CustomEvent("search:completed", {
-          detail: data.data
-        });
-        window.dispatchEvent(customEvent)
-      })
-      .catch(_error => { })
-    } else {
+    if(this.inputTarget.value.length == 0) {
       const customEvent = new CustomEvent("search:completed", {
-        detail: { type: "error", attributes: { message: "Invalid ISBN." } }
+        detail: { type: "reload", attributes: {} }
       });
       window.dispatchEvent(customEvent)
+    } else {
+      // Checks input if it is a valid ISBN using check digit
+      if(this.isValidISBN()) {
+        fetch(`${this.urlValue}/${this.inputTarget.value}`)
+        .then(response => {
+          if(response.status == 400 || response.status == 404) {
+            console.clear();
+          }
+          return response.json();
+        })
+        .then(data => {
+          const customEvent = new CustomEvent("search:completed", {
+            detail: data.data
+          });
+          window.dispatchEvent(customEvent)
+        })
+        .catch(_error => { })
+      } else {
+        const customEvent = new CustomEvent("search:completed", {
+          detail: { type: "error", attributes: { message: "Invalid ISBN." } }
+        });
+        window.dispatchEvent(customEvent)
+      }
     }
   }
 

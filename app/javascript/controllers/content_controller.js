@@ -14,16 +14,19 @@ export default class extends Controller {
   }
 
   updateContent(event) {
-    const { type, attributes } = event.detail
+    const { type, attributes } = event.detail;
     if((attributes !== undefined && type == "error")) {
-      this.contentTarget.innerHTML = this.errorTemplate(attributes)
-    } else {
-      this.contentTarget.innerHTML = this.bookTemplate(attributes)
+      this.contentTarget.innerHTML = this.errorTemplate(attributes);
+    } else if(type == "reload") {
+      this.reloadIndex();
+    }
+    else {
+      this.contentTarget.innerHTML = this.bookTemplate(attributes);
     }
   }
 
   reloadIndex() {
-    this.contentTarget.innerHTML = this.indexContent
+    this.contentTarget.innerHTML = this.indexContent;
   }
 
   errorTemplate(attribute) {
